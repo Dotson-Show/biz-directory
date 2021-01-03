@@ -17,6 +17,11 @@ class BusinessesController extends Controller
         $business->update($this->validateRequest());
     }
 
+    public function deactivate(Business $business)
+    {
+        $business->update(['is_active' => false]);
+    }
+
     /**
      * @return array
      */

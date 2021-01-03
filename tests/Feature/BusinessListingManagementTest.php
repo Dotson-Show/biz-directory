@@ -13,8 +13,6 @@ class BusinessListingManagementTest extends TestCase
     /** @test */
     public function a_business_can_be_added_to_the_list()
     {
-        $this->withoutExceptionHandling();
-
         $response = $this->post('/businesses', [
             'business_name' => 'Peexoo',
             'description' => 'A good description of what Peexoo does',
@@ -160,8 +158,6 @@ class BusinessListingManagementTest extends TestCase
     /** @test */
     public function business_is_active()
     {
-        $this->withoutExceptionHandling();
-
         $this->post('/businesses', [
             'business_name' => 'Peexoo',
             'description' => 'A good description of what Peexoo does',
@@ -180,8 +176,6 @@ class BusinessListingManagementTest extends TestCase
     /** @test */
     public function a_listed_business_can_be_modified()
     {
-        $this->withoutExceptionHandling();
-
         $this->post('/businesses', [
             'business_name' => 'Peexoo',
             'description' => 'A good description of what Peexoo does',
@@ -210,4 +204,51 @@ class BusinessListingManagementTest extends TestCase
         $this->assertEquals('peexoo.com', Business::first()->website_url);
         $this->assertEquals('2348065774433', Business::first()->contact_phone);
     }
+
+    /** @test */
+    public function a_listed_business_can_be_deactivated()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->post('/businesses', [
+            'business_name' => 'Peexoo',
+            'description' => 'A good description of what Peexoo does',
+            'website_url' => 'peexoo.ai',
+            'contact_email' => 'contact@peexoo.ai',
+            'contact_phone' => '2348065778822',
+            'contact_address' => '1, Elugbade close, Ikoyi, Lagos',
+            'image' => '',
+            'is_active' => true,
+        ]);
+
+        $business = Business::first();
+
+        $this->get('/businesses/' . $business->id);
+
+        $this->assertEquals(0, Business::first()->is_active);
+    }
+
+    /** @test */
+    public function a_listed_business_can_be_deleted()
+    {
+        $this->withoutExceptionHandling();
+
+//        $this->post('/businesses', [
+//            'business_name' => 'Peexoo',
+//            'description' => 'A good description of what Peexoo does',
+//            'website_url' => 'peexoo.ai',
+//            'contact_email' => 'contact@peexoo.ai',
+//            'contact_phone' => '2348065778822',
+//            'contact_address' => '1, Elugbade close, Ikoyi, Lagos',
+//            'image' => '',
+//            'is_active' => true,
+//        ]);
+//
+//        $business = Business::first();
+//
+//        $this->get('/businesses/' . $business->id);
+//
+//        $this->assertEquals(0, Business::first()->is_active);
+    }
+
 }

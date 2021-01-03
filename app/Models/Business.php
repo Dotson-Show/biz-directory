@@ -10,4 +10,5 @@ class Business extends Model
     use HasFactory;
 
     protected $guarded = [];
+
 }
