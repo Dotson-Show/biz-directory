@@ -223,15 +223,38 @@ class BusinessListingManagementTest extends TestCase
 
         $business = Business::first();
 
-        $this->get('/businesses/' . $business->id);
+        $this->patch('/businesses/deactivate/' . $business->id);
 
         $this->assertEquals(0, Business::first()->is_active);
     }
 
     /** @test */
-    public function a_listed_business_can_be_deleted()
+    public function a_listed_business_can_be_activated()
     {
         $this->withoutExceptionHandling();
+
+        $this->post('/businesses', [
+            'business_name' => 'Peexoo',
+            'description' => 'A good description of what Peexoo does',
+            'website_url' => 'peexoo.ai',
+            'contact_email' => 'contact@peexoo.ai',
+            'contact_phone' => '2348065778822',
+            'contact_address' => '1, Elugbade close, Ikoyi, Lagos',
+            'image' => '',
+            'is_active' => false,
+        ]);
+
+        $business = Business::first();
+
+        $this->patch('/businesses/activate/' . $business->id);
+
+        $this->assertEquals(1, Business::first()->is_active);
+    }
+
+    /** @test */
+//    public function a_listed_business_can_be_deleted()
+//    {
+//        $this->withoutExceptionHandling();
 
 //        $this->post('/businesses', [
 //            'business_name' => 'Peexoo',
@@ -249,6 +272,6 @@ class BusinessListingManagementTest extends TestCase
 //        $this->get('/businesses/' . $business->id);
 //
 //        $this->assertEquals(0, Business::first()->is_active);
-    }
+//    }
 
 }

@@ -16,4 +16,5 @@ use App\Http\Controllers\BusinessesController;
 
 Route::post('/businesses', [BusinessesController::class, 'store']);
 Route::patch('/businesses/{business}', [BusinessesController::class, 'update']);
-Route::get('/businesses/{business}', [BusinessesController::class, 'deactivate']);
+Route::patch('/businesses/deactivate/{business}', [BusinessesController::class, 'deactivate']);
+Route::patch('/businesses/activate/{business}', [BusinessesController::class, 'activate']);

@@ -22,6 +22,11 @@ class BusinessesController extends Controller
         $business->update(['is_active' => false]);
     }
 
+    public function activate(Business $business)
+    {
+        $business->update(['is_active' => true]);
+    }
+
     /**
      * @return array
      */
