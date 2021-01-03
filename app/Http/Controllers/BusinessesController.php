@@ -9,7 +9,20 @@ class BusinessesController extends Controller
 {
     public function store()
     {
-        $data = request()->validate([
+        Business::create($this->validateRequest());
+    }
+
+    public function update(Business $business)
+    {
+        $business->update($this->validateRequest());
+    }
+
+    /**
+     * @return array
+     */
+    protected function validateRequest()
+    {
+        return request()->validate([
             'business_name' => 'required',
             'description' => 'required',
             'website_url' => 'required',
@@ -19,7 +32,5 @@ class BusinessesController extends Controller
             'image' => '',
             'is_active' => 'required',
         ]);
-
-        Business::create($data);
     }
 }

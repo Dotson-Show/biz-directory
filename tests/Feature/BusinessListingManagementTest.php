@@ -158,8 +158,10 @@ class BusinessListingManagementTest extends TestCase
     }
 
     /** @test */
-        public function business_is_active()
+    public function business_is_active()
     {
+        $this->withoutExceptionHandling();
+
         $this->post('/businesses', [
             'business_name' => 'Peexoo',
             'description' => 'A good description of what Peexoo does',
@@ -168,10 +170,44 @@ class BusinessListingManagementTest extends TestCase
             'contact_phone' => '2348065778822',
             'contact_address' => '1, Elugbade close, Ikoyi, Lagos',
             'image' => '',
-            'is_active' => '',
+            'is_active' => true,
         ]);
 
         $this->assertEquals(true, Business::first()->is_active);
 
+    }
+
+    /** @test */
+    public function a_listed_business_can_be_modified()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->post('/businesses', [
+            'business_name' => 'Peexoo',
+            'description' => 'A good description of what Peexoo does',
+            'website_url' => 'peexoo.ai',
+            'contact_email' => 'contact@peexoo.ai',
+            'contact_phone' => '2348065778822',
+            'contact_address' => '1, Elugbade close, Ikoyi, Lagos',
+            'image' => '',
+            'is_active' => true,
+        ]);
+
+        $business = Business::first();
+
+        $response = $this->patch('/businesses/' . $business->id, [
+            'business_name' => 'Peexoo edited',
+            'description' => 'A good description of what Peexoo does',
+            'website_url' => 'peexoo.com',
+            'contact_email' => 'contact@peexoo.ai',
+            'contact_phone' => '2348065774433',
+            'contact_address' => '1, Elugbade close, Ikoyi, Lagos',
+            'image' => '',
+            'is_active' => true,
+        ]);
+
+        $this->assertEquals('Peexoo edited', Business::first()->business_name);
+        $this->assertEquals('peexoo.com', Business::first()->website_url);
+        $this->assertEquals('2348065774433', Business::first()->contact_phone);
     }
 }

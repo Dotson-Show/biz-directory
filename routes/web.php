@@ -15,3 +15,4 @@ use App\Http\Controllers\BusinessesController;
 */
 
 Route::post('/businesses', [BusinessesController::class, 'store']);
+Route::patch('/businesses/{business}', [BusinessesController::class, 'update']);
